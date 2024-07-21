@@ -1,33 +1,32 @@
-document.addEventListener('DOMContentLoaded', function() {
+async function fetchUserData() {        // Initialize the async function
     const apiUrl = 'https://jsonplaceholder.typicode.com/users';
     const dataContainer = document.getElementById('api-data');
 
-    async function fetchUserData() {
-        try {
-            // Fetch data from apiUrl
-            const response = await fetch(apiUrl);
-            const users = await response.json();
+    try {
+        // Fetch data from API
+        const response = await fetch(apiUrl);
+        const users = await response.json();
 
-            // Clear loading message
-            dataContainer.innerHTML = '';
+        // Clear the loading message
+        dataContainer.innerHTML = '';
 
-            // Create and append user list
-            const userList = document.createElement('ul');
-            users.forEach(user => {
-                const listItem = document.createElement('li');
-                listItem.textContent = user.name;
-                userList.appendChild(listItem);
-            });
+        // Create and Append user list
+        const userList = document.createElement('ul');
 
-            dataContainer.appendChild(userList);
-        } catch (error) {
-            // Handle errors
-            console.error('Failed to fetch user data:', error);
-            dataContainer.innerHTML = 'Failed to load user data.';
-        }
+        users.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = user.name;
+            userList.appendChild(listItem);
+        });
+
+        dataContainer.appendChild(userList);
+    } catch (error) {
+        // Error handling
+        dataContainer.innerHTML = 'Failed to load user data.';
+        console.error('Error fetching data:', error);
     }
+}
 
-    // Initial data fetch on page load
+document.addEventListener('DOMContentLoaded', function() {
     fetchUserData();
 });
-
